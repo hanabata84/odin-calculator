@@ -4,7 +4,25 @@ let val1 = '';
 let val2 = '';
 let op = '';
 
+function disabledBtn(){
+    let match = /[0-9]/;
+    btns.forEach(function(btn) {
+        const dataBtn = btn.dataset.btn;
+        // console.log(dataBtn);
+        if(dataBtn.match(match)){
+            console.table(dataBtn+' yey!');
+        }else{
+            console.table(dataBtn+' aaa');
+        }
+    });
+    
+    // $('button[id="num"]').attr('disabled', 'disabled');
+}
 btns.forEach(btn => btn.addEventListener('click', function(){
+    if(para.textContent.length === 9){
+        disabledBtn();
+    }
+
     const dataButton = btn.dataset.btn;
     if(dataButton === 'add' || dataButton === 'sub' || dataButton === 'mul' || dataButton === 'div'){
         if(op !== ''){
@@ -18,6 +36,9 @@ btns.forEach(btn => btn.addEventListener('click', function(){
         
     } else if(dataButton === 'equal'){
         para.textContent = operate(op,Number(val1),Number(val2));
+        val1 = '';
+        val2 = '';
+        op = 'equal';
     } else if(dataButton === 'clear'){
         val1 = '';
         val2 = '';
@@ -29,7 +50,13 @@ btns.forEach(btn => btn.addEventListener('click', function(){
             if(val2 !== ''){
                 para.textContent += btn.textContent;
                 val2 = para.textContent;
-            }else{
+            }else if(op === 'equal'){
+                para.textContent = '';
+                para.textContent += btn.textContent;
+                val1 = para.textContent;
+                op = '';
+            }
+            else{
                 para.textContent = '';
                 para.textContent += btn.textContent;
                 val2 = para.textContent;
