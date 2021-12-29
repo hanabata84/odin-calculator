@@ -5,26 +5,30 @@ let val2 = '';
 let op = '';
 
 function disabledBtn(){
-    let match = /[0-9]/;
+    let match = /[.,0-9]/;
     btns.forEach(function(btn) {
         const dataBtn = btn.dataset.btn;
         // console.log(dataBtn);
         if(dataBtn.match(match)){
-            console.table(dataBtn+' yey!');
-        }else{
-            console.table(dataBtn+' aaa');
+            // console.table(dataBtn+' yey!');
+            btn.setAttribute('disabled', 'true');
         }
     });
-    
-    // $('button[id="num"]').attr('disabled', 'disabled');
+}
+
+function enableBtn(){
+    btns.forEach(function(btn){
+        btn.removeAttribute('disabled');
+    });
 }
 btns.forEach(btn => btn.addEventListener('click', function(){
-    if(para.textContent.length === 9){
+    if(para.textContent.length === 7){
         disabledBtn();
     }
 
     const dataButton = btn.dataset.btn;
     if(dataButton === 'add' || dataButton === 'sub' || dataButton === 'mul' || dataButton === 'div'){
+        enableBtn();
         if(op !== ''){
             para.textContent = operate(op,Number(val1),Number(val2));
             val1 = para.textContent;
@@ -44,6 +48,7 @@ btns.forEach(btn => btn.addEventListener('click', function(){
         val2 = '';
         op = '';
         para.textContent = '';
+        enableBtn();        
     }
     else{
         if(op !== ''){
